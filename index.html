@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FCFS Scheduler - Full Screen</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="fcfsCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById('fcfsCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Establecer el tamaño del canvas para ocupar toda la pantalla
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Procesos en la cola (cada elemento es una duración de proceso)
+        const processes = [20, 10, 15, 25, 30];
+
+        // Función para ejecutar FCFS en un plano cartesiano
+        function runFCFS() {
+            const y = canvas.height / 2; // Posición en y (centro del canvas)
+
+            // Dibujar el eje x
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+
+            // Etiquetas del eje x
+            ctx.fillText("Tiempo", canvas.width - 40, y + 20);
+
+            let x = 10; // Posición inicial en x
+
+            for (let i = 0; i < processes.length; i++) {
+                const duration = processes[i];
+
+                // Dibujar el proceso en el canvas
+                ctx.fillStyle = '#3498db';
+                ctx.fillRect(x, y - 15, duration * 5, 30);
+                ctx.strokeRect(x, y - 15, duration * 5, 30);
+
+                // Etiquetas de cada proceso
+                ctx.fillText("P" + (i + 1), x + (duration * 5) / 2, y + 50);
+
+                // Actualizar la posición para el próximo proceso
+                x += duration * 5 + 5;
+            }
+        }
+
+        // Llamar a la función para ejecutar FCFS al cargar la página
+        runFCFS();
+
+        // Manejar el cambio de tamaño de la ventana
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            runFCFS();
+        });
+    </script>
+</body>
+</html>
+
+
